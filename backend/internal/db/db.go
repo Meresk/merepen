@@ -39,6 +39,7 @@ func createTables() {
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		login TEXT NOT NULL UNIQUE,
 		password_hash TEXT NOT NULL,
+		is_admin BOOLEAN NOT NULL DEFAULT 0,
 		created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 	);
 	`
@@ -65,14 +66,21 @@ func createTables() {
 
 func seedAdmin(defAdminPassword string) {
 	var count int
-	err := DB.QueryRow("SELECT COUNT(*) FROM users WHERE login = ?", "admin").Scan(&count)
+	err := DB.QueryRow("SELECT COUNT(*) FROM users WHERE login = ? AND is_admin = ?", "admin", 1).Scan(&count)
 	if err != nil {
 		log.Fatal("failed to check admin:", err)
 	}
 
 	if count == 0 {
-		hash, _ := bcrypt.GenerateFromPassword([]byte(defAdminPassword), bcrypt.DefaultCost)
-		_, _ = DB.Exec("INSERT INTO users (login, password_hash) VALUES (?, ?)", "admin", string(hash))
+		hash, err := bcrypt.GenerateFromPassword([]byte(defAdminPassword), bcrypt.DefaultCost)
+		if err != nil {
+			log.Fatal("failed to hash admin password:", err)
+		}
+
+		_, err = DB.Exec("INSERT INTO users (login, password_hash, is_admin) VALUES (?, ?, ?)", "admin", string(hash), 1)
+		if err != nil {
+			log.Fatal("failed to insert admin user:", err)
+		}
 		log.Println("✅ Seeding success, admin user created")
 	}
 }

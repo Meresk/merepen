@@ -31,7 +31,8 @@ func (h *AuthHandler) Login(c *fiber.Ctx) error {
 
 	var id int
 	var hash string
-	err := db.DB.QueryRow("SELECT id, password_hash FROM users WHERE login = $1", input.Login).Scan(&id, &hash)
+	var isAdmin bool
+	err := db.DB.QueryRow("SELECT id, password_hash, is_admin FROM users WHERE login = $1", input.Login).Scan(&id, &hash, &isAdmin)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid credentials"})
@@ -47,7 +48,7 @@ func (h *AuthHandler) Login(c *fiber.Ctx) error {
 		})
 	}
 
-	token, err := h.generateToken(id, input.Login)
+	token, err := h.generateToken(id, input.Login, isAdmin)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "cannot create token"})
 	}
@@ -62,7 +63,7 @@ func (h *AuthHandler) Login(c *fiber.Ctx) error {
 		SameSite: "Strict",
 	})
 
-	return c.JSON(fiber.Map{"ok": true})
+	return c.SendStatus(fiber.StatusNoContent)
 }
 
 func (h *AuthHandler) Logout(c *fiber.Ctx) error {
@@ -73,15 +74,16 @@ func (h *AuthHandler) Logout(c *fiber.Ctx) error {
 		Path:     "/",
 		Expires:  time.Now().Add(-1 * time.Hour),
 	})
-	return c.JSON(fiber.Map{"ok": true})
+	return c.SendStatus(fiber.StatusNoContent)
 }
 
-func (h *AuthHandler) generateToken(id int, login string) (string, error) {
+func (h *AuthHandler) generateToken(id int, login string, isAdmin bool) (string, error) {
 	claims := jwt.MapClaims{
-		"sub":     login,
-		"user_id": id,
-		"exp":     time.Now().Add(time.Hour * 2).Unix(),
-		"iat":     time.Now().Unix(),
+		"sub":      login,
+		"user_id":  id,
+		"is_admin": isAdmin,
+		"exp":      time.Now().Add(time.Hour * 2).Unix(),
+		"iat":      time.Now().Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

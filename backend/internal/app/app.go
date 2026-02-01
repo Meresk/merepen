@@ -18,7 +18,7 @@ func Run(cfg Config) {
 	app.Use(logger.New())
 
 	// Handlers
-	userHandler := user.NewHandler(cfg.JWTSecret)
+	userHandler := user.NewHandler()
 	boardHandler := board.NewHandler()
 	authHandler := auth.NewHandler(cfg.JWTSecret)
 	authMiddleware := auth.NewMiddleware(cfg.JWTSecret)
@@ -31,8 +31,12 @@ func Run(cfg Config) {
 	authGroup.Post("/logout", authHandler.Logout)
 
 	// User endpoints (CRUD)
-	userGroup := api.Group("/users", authMiddleware.RequireLogin)
+	userGroup := api.Group("/users", authMiddleware.RequireLogin, authMiddleware.RequireAdmin)
 	userGroup.Post("/", userHandler.Create)
+	userGroup.Get("", userHandler.List)
+	userGroup.Get("/:id", userHandler.GetById)
+	userGroup.Put("/:id", userHandler.Update)
+	userGroup.Delete("/:id", userHandler.Delete)
 
 	// Board endpoints (CRUD)
 	boardGroup := api.Group("/boards", authMiddleware.RequireLogin)

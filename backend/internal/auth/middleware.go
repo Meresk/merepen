@@ -43,6 +43,18 @@ func (m *AuthMiddleware) RequireLogin(c *fiber.Ctx) error {
 
 	c.Locals("user_id", claims["user_id"])
 	c.Locals("login", claims["sub"])
+	c.Locals("is_admin", claims["is_admin"])
+
+	return c.Next()
+}
+
+func (m *AuthMiddleware) RequireAdmin(c *fiber.Ctx) error {
+	isAdmin, ok := c.Locals("is_admin").(bool)
+	if !ok || !isAdmin {
+		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
+			"error": "admin access required",
+		})
+	}
 
 	return c.Next()
 }
