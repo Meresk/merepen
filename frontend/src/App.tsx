@@ -1,14 +1,37 @@
-import "@excalidraw/excalidraw/index.css";
-import { Excalidraw } from '@excalidraw/excalidraw'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import AppPage from "./pages/AppPage";
+import AdminPage from "./pages/AdminPage";
+import { AuthProvider } from "./auth/AuthContext";
+import { RequireAuth, RequireAdmin } from "./auth/RequireAuth";
 
-function App() {
+export default function App() {
   return (
-    <>
-    <div style={{width: "100%", height: "100%"}}>
-      <Excalidraw />
-    </div>
-    </>
-  )
-}
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
 
-export default App
+          <Route
+            path="/app"
+            element={
+              <RequireAuth>
+                <AppPage />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/admin"
+            element={
+              <RequireAdmin>
+                <AdminPage />
+              </RequireAdmin>
+            }
+          />
+          
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
