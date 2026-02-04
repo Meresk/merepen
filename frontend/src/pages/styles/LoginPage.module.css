@@ -1,84 +1,126 @@
-/* Центрированная кнопка */
-.centerButton {
+/* Общий контейнер (морфинг) */
+.morph {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40px;       
-  height: 40px;      
-  border-radius: 50%; 
-  background-color: rgba(255, 255, 255, 0.029);
+
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(3px);
   border: 2px solid rgba(255, 255, 255, 0.18);
-  font-size: 14px;
-  color: #fff;
-  cursor: pointer;
-  z-index: 1;
 
-  /* Центрируем текст */
   display: flex;
   align-items: center;
   justify-content: center;
+
+  transition:
+    width 0.35s ease,
+    height 0.35s ease,
+    border-radius 0.35s ease,
+    background 0.35s ease;
+
+  overflow: hidden;
+  z-index: 1;
 }
 
-/* Форма входа */
+/* Открытое состояние */
+.morph.open {
+  width: 320px;
+  height: 260px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Кнопка */
+.centerButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.morph.open .centerButton {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+
+/* Форма */
 .loginForm {
+  position: absolute;
+  inset: 20px;
+
   display: flex;
   flex-direction: column;
-  width: 300px;
-  gap: 16px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  transition: all 0.3s ease;
+  gap: 14px;
+
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+
+  transition: opacity 0.25s ease 0.15s, transform 0.25s ease 0.15s;
+}
+
+.morph.open .loginForm {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .loginInput {
   padding: 12px;
-  font-size: 16px;
+  font-size: 15px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
 .loginButton {
   padding: 12px;
-  font-size: 16px;
+  font-size: 15px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: #fff;
   cursor: pointer;
 }
 
 .cancelButton {
-  margin-top: 8px;
-  padding: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  background: transparent;
-  color: #888;
+  background: none;
   border: none;
+  color: #aaa;
+  cursor: pointer;
 }
 
 .errorText {
-  color: red;
+  color: #ff6b6b;
   text-align: center;
 }
 
+/* Подпись */
 .creatortxt {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  color: rgba(255, 255, 255, 0.8);
   font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
   padding: 8px 16px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 20;
-  
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.creatortxt:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.9);
 }
