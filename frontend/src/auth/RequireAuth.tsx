@@ -6,6 +6,7 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
   const { user, loading } = useAuth();
 
   if (loading) {
+    // TODO: надо красиво
     <div> Loading... </div>
   }
 

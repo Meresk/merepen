@@ -1,48 +1,70 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
+import styles from './styles/LoginPage.module.css';
 
-export function LoginPage() {
-  const { login, user } = useAuth();
+export const LoginPage: React.FC = () => {
+  const { user, login } = useAuth();
   const navigate = useNavigate();
-
   const [loginValue, setLoginValue] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      navigate('/app');
-    }
+    if (user) navigate('/app');
   }, [user, navigate]);
 
-  async function onSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-
     try {
       await login(loginValue, password);
-      navigate('/app');
     } catch {
       setError('Неверный логин или пароль');
     }
-  }
+  };
 
   return (
-    <form onSubmit={onSubmit}>
-      <input
-        placeholder="login"
-        value={loginValue}
-        onChange={(e) => setLoginValue(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Login</button>
-      {error && <div>{error}</div>}
-    </form>
+    <>
+      {!showForm && (
+        <button className={styles.centerButton} onClick={() => setShowForm(true)}>
+          ?
+        </button>
+      )}
+
+      <form
+        onSubmit={handleSubmit}
+        className={styles.loginForm}
+        style={{ display: showForm ? 'flex' : 'none' }}
+      >
+        <input
+          placeholder="Login"
+          value={loginValue}
+          onChange={(e) => setLoginValue(e.target.value)}
+          className={styles.loginInput}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className={styles.loginInput}
+        />
+        <button type="submit" className={styles.loginButton}>
+          Войти
+        </button>
+        <button
+          type="button"
+          className={styles.cancelButton}
+          onClick={() => setShowForm(false)}
+        >
+          Отмена
+        </button>
+        {error && <div className={styles.errorText}>{error}</div>}
+      </form>
+
+      <div className={styles.footerBadge}>by. meresk.</div>
+    </>
   );
-}
+};
