@@ -49,11 +49,17 @@
 }
 
 .boardCard {
-  padding: 16px;
+  padding: 18px;
   border-radius: 12px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
   cursor: pointer;
+}
+
+.boardCard > div:first-child {
+  white-space: nowrap;    
+  overflow: hidden;         
+  text-overflow: ellipsis;  
 }
 
 .boardCard:hover {
@@ -66,8 +72,14 @@
   margin-top: 4px;
 }
 
+.boardName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .addCard {
-  padding: 16px;
+  padding: 18px;
   border-radius: 12px;
   border: 1px dashed rgba(255,255,255,0.2);
   display: flex;
@@ -75,22 +87,31 @@
   justify-content: center;
   cursor: pointer;
   opacity: 0.7;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.addText {
-  width: 100%;
-  text-align: center;
+.addCardActive {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 16px 12px;
+  border-radius: 16px;
 }
 
 .createForm {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  width: 100%;
   gap: 8px;
+  animation: fadeIn 0.3s ease;
 }
 
 .input {
-  padding: 8px;
-  border-radius: 8px;
+  flex: 1 1 auto; /* растягиваем, но оставляем возможность сжиматься */
+  min-width: 0;   /* важно для правильного сжатия в flex */
+  padding: 8px 12px;
+  border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.1);
   background: rgba(255,255,255,0.04);
   color: #fff;
@@ -104,17 +125,37 @@
 .createButtons {
   display: flex;
   gap: 8px;
+  flex-shrink: 0; /* кнопки не сжимаются */
 }
 
-.createButtons button {
-  padding: 6px 12px;
-  border-radius: 8px;
+.circleButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   border: none;
   background: rgba(255,255,255,0.08);
   color: #fff;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-.createButtons button:active {
+.circleButton:active {
+  transform: scale(0.9);
   box-shadow: 0 0 0 3px rgba(255,255,255,0.12);
+}
+
+
+/* Анимация морфинга */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

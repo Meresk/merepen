@@ -4,6 +4,7 @@ import { useAuth } from '../auth/AuthContext';
 import { listBoards, createBoard } from '../api/boards';
 import type { Board } from '../api/types';
 import styles from './styles/AppPage.module.css';
+import { TruncatedText } from '../components/TruncatedText';
 
 export function AppPage() {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ export function AppPage() {
               className={styles.boardCard}
               onClick={() => navigate(`/boards/${b.id}`)}
             >
-              <div>{b.name}</div>
+              <TruncatedText text={b.name} className={styles.boardName}/>
               <div className={styles.boardUpdated}>
                 updated {new Date(b.updated_at).toLocaleString()}
               </div>
@@ -69,27 +70,35 @@ export function AppPage() {
           ))}
 
           {/* Add board */}
-          <div className={styles.addCard}>
+          <div
+            className={`${styles.addCard} ${
+              creatingBoard ? styles.addCardActive : ''
+            }`}
+            onClick={() => !creatingBoard && setCreatingBoard(true)}
+          >
             {creatingBoard ? (
               <div className={styles.createForm}>
                 <input
+                  autoFocus
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   placeholder="Board name"
                   className={styles.input}
                 />
                 <div className={styles.createButtons}>
-                  <button onClick={handleCreate}>Create</button>
-                  <button onClick={() => setCreatingBoard(false)}>Cancel</button>
+                  <button onClick={handleCreate} className={styles.circleButton}>
+                    ✓
+                  </button>
+                  <button
+                    onClick={() => setCreatingBoard(false)}
+                    className={styles.circleButton}
+                  >
+                    ×
+                  </button>
                 </div>
               </div>
             ) : (
-              <div
-                onClick={() => setCreatingBoard(true)}
-                className={styles.addText}
-              >
-                + new board
-              </div>
+              <div className={styles.addText}>+ new board</div>
             )}
           </div>
         </div>
