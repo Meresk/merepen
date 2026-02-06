@@ -57,9 +57,9 @@
 }
 
 .boardCard > div:first-child {
-  white-space: nowrap;    
-  overflow: hidden;         
-  text-overflow: ellipsis;  
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .boardCard:hover {
@@ -78,41 +78,86 @@
   text-overflow: ellipsis;
 }
 
+/* ---------- ADD CARD ---------- */
+
 .addCard {
+  height: 70px;
   padding: 18px;
+  box-sizing: border-box;
+
   border-radius: 12px;
   border: 1px dashed rgba(255,255,255,0.2);
+  background: transparent;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   cursor: pointer;
   opacity: 0.7;
-  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+
+  transition:
+    background 0.25s ease,
+    border 0.25s ease,
+    border-radius 0.25s ease,
+    opacity 0.25s ease;
 }
 
 .addCardActive {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
-  padding: 16px 12px;
   border-radius: 16px;
+  opacity: 1;
 }
+
+/* слой-контейнер, БЕЗ transform */
+.addContent {
+  position: absolute;
+  inset: 0;
+  padding: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: opacity 0.2s ease;
+  will-change: opacity;
+}
+
+.addHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- FORM ---------- */
 
 .createForm {
   display: flex;
   align-items: center;
   width: 100%;
   gap: 8px;
-  animation: fadeIn 0.3s ease;
+
+  transform: scale(1);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.addHidden .createForm {
+  transform: scale(0.96);
+  opacity: 0;
 }
 
 .input {
-  flex: 1 1 auto; /* растягиваем, но оставляем возможность сжиматься */
-  min-width: 0;   /* важно для правильного сжатия в flex */
+  flex: 1 1 auto;
+  min-width: 0;
+
   padding: 8px 12px;
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.1);
+
   background: rgba(255,255,255,0.04);
   color: #fff;
   outline: none;
@@ -125,7 +170,7 @@
 .createButtons {
   display: flex;
   gap: 8px;
-  flex-shrink: 0; /* кнопки не сжимаются */
+  flex-shrink: 0;
 }
 
 .circleButton {
@@ -133,29 +178,19 @@
   height: 36px;
   border-radius: 50%;
   border: none;
+
   background: rgba(255,255,255,0.08);
   color: #fff;
   cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .circleButton:active {
   transform: scale(0.9);
   box-shadow: 0 0 0 3px rgba(255,255,255,0.12);
-}
-
-
-/* Анимация морфинга */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }

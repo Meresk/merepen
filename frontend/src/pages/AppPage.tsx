@@ -71,36 +71,49 @@ export function AppPage() {
 
           {/* Add board */}
           <div
-            className={`${styles.addCard} ${
-              creatingBoard ? styles.addCardActive : ''
-            }`}
-            onClick={() => !creatingBoard && setCreatingBoard(true)}
-          >
-            {creatingBoard ? (
-              <div className={styles.createForm}>
-                <input
-                  autoFocus
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  placeholder="Board name"
-                  className={styles.input}
-                />
-                <div className={styles.createButtons}>
-                  <button onClick={handleCreate} className={styles.circleButton}>
-                    ✓
-                  </button>
-                  <button
-                    onClick={() => setCreatingBoard(false)}
-                    className={styles.circleButton}
-                  >
-                    ×
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className={styles.addText}>+ new board</div>
-            )}
-          </div>
+  className={`${styles.addCard} ${
+    creatingBoard ? styles.addCardActive : ''
+  }`}
+  onClick={() => !creatingBoard && setCreatingBoard(true)}
+>
+  {/* Текст "+ new board" */}
+  <div
+    className={`${styles.addContent} ${
+      creatingBoard ? styles.addHidden : ''
+    }`}
+  >
+    <div className={styles.addText}>+ new board</div>
+  </div>
+
+  {/* Форма */}
+  <div
+    className={`${styles.addContent} ${
+      !creatingBoard ? styles.addHidden : ''
+    }`}
+  >
+    <div className={styles.createForm}>
+      <input
+        autoFocus
+        value={newName}
+        onChange={(e) => setNewName(e.target.value)}
+        placeholder="name"
+        className={styles.input}
+      />
+      <div className={styles.createButtons}>
+        <button onClick={handleCreate} className={styles.circleButton}>
+          ✓
+        </button>
+        <button
+          onClick={() => setCreatingBoard(false)}
+          className={styles.circleButton}
+        >
+          ×
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
         </div>
       )}
     </div>

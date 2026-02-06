@@ -9,28 +9,32 @@ interface TruncatedTextProps {
 }
 
 export function TruncatedText({ text, className }: TruncatedTextProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
   const [isTruncated, setIsTruncated] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
+    const el = textRef.current;
     if (!el) return;
+
     setIsTruncated(el.scrollWidth > el.clientWidth);
   }, [text]);
 
-  const content = <div ref={ref} className={className}>{text}</div>;
+  return (
+    <>
+      <div ref={textRef} className={className}>
+        {text}
+      </div>
 
-  return isTruncated ? (
-    <Tippy
-      content={text}
-      placement="top"
-      animation="shift-away"
-      delay={[100, 50]}
-      className={styles.tooltipBox}
-    >
-      {content}
-    </Tippy>
-  ) : (
-    content
+      {isTruncated && textRef.current && (
+        <Tippy
+          content={text}
+          placement="top"
+          animation="shift-away"
+          delay={[100, 50]}
+          className={styles.tooltipBox}
+          reference={textRef.current}
+        />
+      )}
+    </>
   );
 }
