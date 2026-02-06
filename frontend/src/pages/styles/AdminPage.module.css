@@ -1,0 +1,196 @@
+.pageContainer {
+  padding: 32px;
+  font-family: sans-serif;
+  color: #fff;
+
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.pageContainerVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.userPanel {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(6px);
+  padding: 6px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.loggedText {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.logoutButton {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.08);
+  cursor: pointer;
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+}
+
+.logoutButton:active {
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.12);
+}
+
+.boardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  grid-auto-rows: min-content;
+}
+
+.boardCard {
+  padding: 18px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.boardCard:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.boardCardContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.boardName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+
+/* ---------- ADD CARD ---------- */
+.addCard {
+  min-height: 70px;
+  padding: 18px;
+  box-sizing: border-box;
+
+  border-radius: 12px;
+  border: 1px dashed rgba(255,255,255,0.2);
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  opacity: 0.7;
+  position: relative;
+  overflow: hidden;
+
+  transition:
+    background 0.25s ease,
+    border 0.25s ease,
+    border-radius 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.addCardActive {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  opacity: 1;
+}
+
+.addContent {
+  position: absolute;
+  inset: 0;
+  padding: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: opacity 0.2s ease;
+  will-change: opacity;
+}
+
+.addHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.createForm {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+
+  transform: scale(1);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.addHidden .createForm {
+  transform: scale(0.96);
+  opacity: 0;
+}
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #aaa;
+}
+
+.createButtons {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.circleButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.circleButton:active {
+  transform: scale(0.9);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.12);
+}

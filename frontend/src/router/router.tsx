@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 
 import { RequireAuth } from '../auth/RequireAuth';
 import { BoardPage } from '../pages/BoardPage';
-import AdminPage from '../pages/AdminPage';
+import { AdminPage } from '../pages/AdminPage';
 import { AdminRequireAuth } from '../auth/AdminRequireAuth';
 
 
