@@ -33,8 +33,6 @@ export function BoardPage() {
 
   const [saveMorph, setSaveMorph] = useState(false);
   const [loadMorph, setLoadMorph] = useState(false);
-  const SaveToastId = useRef<string | null>(null);
-  const loadToastId = useRef<string | null>(null);
 
   const [leaving, setLeaving] = useState(false);
 
@@ -282,7 +280,7 @@ export function BoardPage() {
             <button 
               onClick={() => {
                 setSaveMorph(true);
-                SaveToastId.current = toast('You are about to save the board to server', {
+                toast('You are about to save the board to server', {
                   icon: '⚠️',
                   duration: 5000,
                 });
@@ -329,7 +327,7 @@ export function BoardPage() {
               onClick={() => {
                 setLoadMorph(true);
 
-                loadToastId.current = toast('Loading will overwrite current board', {
+                toast('Loading will overwrite current board', {
                   icon: '⚠️',
                   duration: 5000,
                 });
