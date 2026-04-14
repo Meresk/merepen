@@ -278,7 +278,13 @@ export function BoardPage() {
             </div>
           ) : (
             <button 
-              onClick={() => setSaveMorph(true)} 
+              onClick={() => {
+                setSaveMorph(true);
+                toast('You are about to save the board to server', {
+                  icon: '⚠️',
+                  duration: 5000,
+                });
+              }}
               disabled={saving}
               title="Save"
             >
@@ -318,7 +324,14 @@ export function BoardPage() {
             </div>
           ) : (
             <button 
-              onClick={() => setLoadMorph(true)} 
+              onClick={() => {
+                setLoadMorph(true);
+
+                toast('Loading will overwrite current board', {
+                  icon: '⚠️',
+                  duration: 5000,
+                });
+              }}
               title="Load"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
